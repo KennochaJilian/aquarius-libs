@@ -97,6 +97,75 @@
           }
         }
       }
+    },
+    "aquarius-auth": {
+      "projectType": "library",
+      "root": "projects/aquarius-auth",
+      "sourceRoot": "projects/aquarius-auth/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/aquarius-auth/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/aquarius-auth/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/aquarius-auth/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/aquarius-auth/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "aquarius-api": {
+      "projectType": "library",
+      "root": "projects/aquarius-api",
+      "sourceRoot": "projects/aquarius-api/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/aquarius-api/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/aquarius-api/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/aquarius-api/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/aquarius-api/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

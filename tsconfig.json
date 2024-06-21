@@ -3,6 +3,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "aquarius-api": [
+        "./dist/aquarius-api"
+      ],
+      "aquarius-auth": [
+        "./dist/aquarius-auth"
+      ]
+    },
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
@@ -14,6 +22,7 @@
     "sourceMap": true,
     "declaration": false,
     "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
