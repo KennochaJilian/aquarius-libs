@@ -1,40 +1,36 @@
-export class MockProvider<T>
-{
-    object: T;
+import { Provider } from '@angular/core';
 
-    autoMock<T>(obj: new (...args: any[]) => T): T
-    {
-        const res = {} as any;
+export class MockProvider<T> {
+    object!: T; // Utilisation de `!` pour indiquer que ce sera initialisé avant l'accès
 
-        const keys = Object.getOwnPropertyNames(obj.prototype);
+    autoMock<U>(obj: new (...args: any[]) => U): U {
+        const res = {} as U; // Cast sécurisé
 
-        const allMethods = keys.filter((key) =>
-        {
-            try
-            {
-                return typeof obj.prototype[key] === "function";
-            }
-            catch (error)
-            {
+        const prototype = obj.prototype;
+        if (!prototype) {
+            throw new Error('autoMock only works with class constructors');
+        }
+
+        const keys = Object.getOwnPropertyNames(prototype);
+
+        const allMethods = keys.filter((key) => {
+            try {
+                return typeof prototype[key] === 'function';
+            } catch {
                 return false;
             }
         });
 
-        const allProperties = keys.filter((x) => !allMethods.includes(x));
+        const allProperties = keys.filter((key) => !allMethods.includes(key));
 
-        // Mocking with jasmine here, modify to your needs if needed
-        allMethods.forEach((method) =>
-        {
-            res[method] = jasmine.createSpy(method);
+        // Mocking with Jasmine
+        allMethods.forEach((method) => {
+            (res as any)[method] = jasmine.createSpy(method);
         });
 
-        allProperties.forEach((property) =>
-        {
+        allProperties.forEach((property) => {
             Object.defineProperty(res, property, {
-                get: function ()
-                {
-                    return "";
-                },
+                get: () => '',
                 configurable: true,
             });
         });
@@ -42,10 +38,8 @@ export class MockProvider<T>
         return res;
     }
 
-    public provideMock<T>(type: new (...args: any[]) => T): Provider
-    {
-        this.object = this.autoMock(type);
-
+    public provideMock<U>(type: new (...args: any[]) => U): Provider {
+        this.object = this.autoMock(type) as unknown as T;
         return { provide: type, useValue: this.object };
     }
 }
